@@ -21,4 +21,8 @@ $ pip3 install opencv-python	# This installs numpy as its dependency
 $ pip3 install face_recognition	# This installs dlib as its dependency
 ```
 
-I will add more information as the course goes on.
+## What this repo has
+
+* **display.py** program to show a picture using OpenCV functions
+* **video\_capture.py** to record what's in the webcam
+* **mirror\_facedetect.py** to detect faces in the webcam

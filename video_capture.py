@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import cv2
 import numpy    # This seems to be useless, but it's needed to operate ndarrays
 
@@ -20,9 +21,10 @@ while cap.isOpened():
     ret, frame=cap.read()
     if ret==False:
         break
+    frame=cv2.flip(frame,1) # To make mirror effect
     out.write(frame)
     cv2.imshow('Camera',frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(50) & 0xFF == ord('q'):
         break
 
 # Destroy the camera object

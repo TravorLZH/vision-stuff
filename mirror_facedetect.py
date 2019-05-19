@@ -1,11 +1,15 @@
+#!/usr/bin/env python3
 # mirror_facedetect.py: Detect faces in the view of webcam
 import cv2
 import numpy
 import face_recognition
 import sys
+import os
 
 # Increase this number to speed up and lower the accuracy
 k=4
+
+font=cv2.FONT_HERSHEY_PLAIN
 
 # Allow users to change k while running
 if len(sys.argv)>=2:
@@ -21,6 +25,8 @@ def mark_faces(frm):
     for i,face in enumerate(faces):
         top,right,bottom,left=face
         frm=cv2.rectangle(frm,(k*left,k*top),(k*right,k*bottom),colors[i%3],3)
+    os.system("clear")  # To make the screen not that messy
+    print("Found {} faces".format(len(faces)))
     return frm
 
 camera=cv2.VideoCapture(0)
@@ -31,7 +37,7 @@ while camera.isOpened():
         break
     frm=cv2.flip(frm,1)
     # This is just to put rectangle to highlight the faces
-    mark_faces(frm)
+    frm=mark_faces(frm)
     cv2.imshow('The Mirror',frm)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
