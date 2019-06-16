@@ -22,19 +22,15 @@ for f in files:
         encoding=fr.face_encodings(img)[0]
     name=parts[0]
     name=name.replace('_',' ')
-    print("Append `%s' to face library" % name)
+    print("Storing `%s' to face library" % name)
     encodings.append(encoding)
     names.append(name)
 
 vid=cv2.VideoCapture(0)
 
-def decorate(frame):
-    small=cv2.resize(frame,(0,0),fx=1.0/k,fy=1.0/k)
-    rgb_frame=small[...,::-1]   # Convert it to RGB to increase efficiency
-    face_pos=fr.face_locations(rgb_frame,model="cnn")
-    face_codes=fr.face_encodings(rgb_frame,face_pos)
-    for (top,right,bottom,left),code in zip(face_pos,face_codes):
-        name="Unknown"
+def decorate(frame,rgb_frame,face_pos,face_codes):
+    for i,((top,right,bottom,left),code) in enumerate(zip(face_pos,face_codes)):
+        name="Unknown ID %d" % i
         faces=fr.compare_faces(encodings,code)
         distances=fr.face_distance(encodings,code)
         i=np.argmin(distances)
@@ -52,9 +48,22 @@ while vid.isOpened():
         break
     # Create mirror image
     frame=cv2.flip(frame,1)
-    frame=decorate(frame)
+    small=cv2.resize(frame,(0,0),fx=1.0/k,fy=1.0/k)
+    rgb_frame=small[...,::-1]   # Convert it to RGB to increase efficiency
+    face_pos=fr.face_locations(rgb_frame,model="cnn")
+    face_codes=fr.face_encodings(rgb_frame,face_pos)
+    frame=decorate(frame,rgb_frame,face_pos,face_codes)
     cv2.imshow("That is you",frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    key=cv2.waitKey(1) & 0xFF
+    if key==ord('q'):
         break
+    elif key==ord('k'): # Pause
+        i=int(input("Enter ID: "))
+        name=input("Enter new name for ID %d: " % i)
+        filename=os.path.join(imgdir,name.replace(' ',"_")+".face")
+        encodings.append(face_codes[i])
+        names.append(name)
+        print("Storing `%s' to face library" % name)
+        np.savetxt(filename,face_codes[i])
 
 vid.release()
