@@ -26,3 +26,4 @@ $ pip3 install face_recognition	# This installs dlib as its dependency
 * **display.py** program to show a picture using OpenCV functions
 * **video\_capture.py** to record what's in the webcam
 * **mirror\_facedetect.py** to detect faces in the webcam
+* **face\_ident.py** to identify the actual person from their faces
