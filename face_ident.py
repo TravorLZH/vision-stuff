@@ -42,6 +42,10 @@ def decorate(frame,rgb_frame,face_pos,face_codes):
                 cv2.FONT_HERSHEY_DUPLEX,1.0,(0xFF,0xFF,0xFF),1)
     return frame
 
+# Do nothing
+def nop():
+    return None
+
 while vid.isOpened():
     ret,frame=vid.read()
     if ret==False:
@@ -58,12 +62,16 @@ while vid.isOpened():
     if key==ord('q'):
         break
     elif key==ord('k'): # Pause
-        i=int(input("Enter ID: "))
-        name=input("Enter new name for ID %d: " % i)
-        filename=os.path.join(imgdir,name.replace(' ',"_")+".face")
-        encodings.append(face_codes[i])
-        names.append(name)
-        print("Storing `%s' to face library" % name)
-        np.savetxt(filename,face_codes[i])
+        data=input("Enter ID: ")
+        try:
+            i=int(data)
+            name=input("Enter new name for ID %d: " % i)
+            filename=os.path.join(imgdir,name.replace(' ',"_")+".face")
+            encodings.append(face_codes[i])
+            names.append(name)
+            print("Storing `%s' to face library" % name)
+            np.savetxt(filename,face_codes[i])
+        except ValueError:
+            print("Invalid Input, continue session")
 
 vid.release()
