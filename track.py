@@ -26,7 +26,8 @@ tracker_type=sys.argv[1]
 if tracker_type not in allowed_types:
     print("error: Unknown tracker type `%s', allowed types are:\n%s"
             % (tracker_type,str.join(', ',allowed_types)))
-    exit(-1)
+    print("Using `csrt' as default")
+    tracker_type="csrt"
 
 if argc<3:
     print("No files given, using webcam instead")
