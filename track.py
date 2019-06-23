@@ -6,13 +6,35 @@ import numpy as np
 argc=len(sys.argv)
 
 if argc<2:
+    print("usage: %s tracker [video_file]" % sys.argv[0])
+    exit(-1)
+
+create_tracker={
+    "csrt": cv2.TrackerCSRT_create,
+    "kcf": cv2.TrackerKCF_create,
+    "boosting": cv2.TrackerBoosting_create,
+    "mil": cv2.TrackerMIL_create,
+    "tld": cv2.TrackerTLD_create,
+    "medianflow": cv2.TrackerMedianFlow_create,
+    "mosse": cv2.TrackerMOSSE_create
+}
+
+allowed_types=create_tracker.keys()
+
+tracker_type=sys.argv[1]
+
+if tracker_type not in allowed_types:
+    print("error: Unknown tracker type `%s', allowed types are:\n%s"
+            % (tracker_type,str.join(', ',allowed_types)))
+    exit(-1)
+
+if argc<3:
     print("No files given, using webcam instead")
     video=cv2.VideoCapture(0)
 else:
-    video=cv2.VideoCapture(sys.argv[1])
-# Use KCF to track objects
-tracker=cv2.TrackerCSRT_create()
+    video=cv2.VideoCapture(sys.argv[2])
 
+tracker=None
 
 # Used by mouse_handler() and tracking
 flag=False
@@ -34,7 +56,7 @@ while video.isOpened():
     ret,frame=video.read()
     if ret==False:
         break
-    if argc<2:
+    if argc<3:
         frame=cv2.flip(frame,1)
     if box!=None:
         ret,newbox=tracker.update(frame)
@@ -46,7 +68,11 @@ while video.isOpened():
     if key==ord('q'):
         break
     elif key==ord('k'):
-        box=cv2.selectROI(win,frame,fromCenter=False,showCrosshair=False)
+        tmp_box=cv2.selectROI(win,frame,fromCenter=False,showCrosshair=False)
+        if tmp_box==(0,0,0,0):
+            continue
+        box=tmp_box
+        tracker=create_tracker[tracker_type]()
         tracker.init(np.array(frame,copy=True),box)
 
 video.release()
