@@ -28,3 +28,5 @@ $ pip3 install face_recognition	# This installs dlib as its dependency
 * **mirror\_facedetect.py** to detect faces in the webcam
 * **face\_ident.py** to identify the actual person from their faces
 * **gen\_encoding.py** to generate `.face` files from images
+* **display\_faces.py** to put rectangles on the faces of a picture
+* **paint\_stuff.py** to draw rectangles by mouse on a custom background image

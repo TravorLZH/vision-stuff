@@ -8,10 +8,6 @@ if argc<2:
     print("usage: %s input_file [output_file]" % sys.argv[0])
     exit(-1)
 
-import numpy as np
-import face_recognition as fr
-import csv
-
 input_filename=sys.argv[1]
 output_filename=""
 if argc>=3:
@@ -21,6 +17,10 @@ else:
     parts[-1]="face"
     output_filename='.'.join(parts)
 print("output data to `%s'" % output_filename)
+
+import numpy as np
+import face_recognition as fr
+import csv
 
 image=fr.load_image_file(input_filename)
 encoding=fr.face_encodings(image)[0]
