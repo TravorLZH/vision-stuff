@@ -6,6 +6,7 @@ Institute of Automation, Chinese Academy of Sciences. To run it, you need to
 have:
 
 * A working **python3**
+* Module `opencv-contrib-python`
 * Module `opencv-python`
 * Module `numpy`
 * Module `face_recognition`
@@ -17,7 +18,9 @@ Installing those packages are not that hard, we can just puts these commands
 into the terminal:
 ```shell
 $ brew install python		# This installs Python 3.7 by HomeBrew
+$ pip3 install numpy
 $ pip3 install opencv-python	# This installs numpy as its dependency
+$ pip3 install opencv-contrib-python	# For object tracking
 $ pip3 install face_recognition	# This installs dlib as its dependency
 ```
 
@@ -30,3 +33,4 @@ $ pip3 install face_recognition	# This installs dlib as its dependency
 * **gen\_encoding.py** to generate `.face` files from images
 * **display\_faces.py** to put rectangles on the faces of a picture
 * **paint\_stuff.py** to draw rectangles by mouse on a custom background image
+* **track.py** to track an object from user's selection
