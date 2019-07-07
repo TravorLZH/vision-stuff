@@ -34,3 +34,4 @@ $ pip3 install face_recognition	# This installs dlib as its dependency
 * **display\_faces.py** to put rectangles on the faces of a picture
 * **paint\_stuff.py** to draw rectangles by mouse on a custom background image
 * **track.py** to track an object from user's selection
+* **face\_decor.py** Put decorations on your face, click and enjoy!
