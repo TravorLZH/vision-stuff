@@ -19,9 +19,10 @@ def do_decor(frame):
         top_lip=np.array(face_landmarks["top_lip"],np.int32)
         bottom_lip=np.array(face_landmarks["bottom_lip"],np.int32)
         frame=cv2.fillPoly(frame,[k*eyebrow_l,k*eyebrow_r],(0xFF,0xFF,0xFF))
-        frame=cv2.fillPoly(frame,[k*nose],(0,0x80,0xFF))
-        frame=cv2.fillPoly(frame,[k*bottom_lip],(0,0,0xFF))
-        frame=cv2.fillPoly(frame,[k*top_lip],(0,0xFF,0))
+        #frame=cv2.fillPoly(frame,[k*nose],(0,0x80,0xFF))
+        mouth_color=(0x3E,0x51,0xFC)
+        #frame=cv2.fillPoly(frame,[k*bottom_lip],mouth_color)
+        #frame=cv2.fillPoly(frame,[k*top_lip],mouth_color)
     return frame
 
 while webcam.isOpened():
