@@ -30,12 +30,9 @@ def put_sunglasses(frame,pic,mid,angle):
     for i,row in enumerate(pic):
         for j,pix in enumerate(row):
             try:
-                alpha=pix[3]/0xFF
-                vec=np.array([alpha,1-alpha])
-                mat=np.array([pix[0:3],roi[i][j]],dtype=np.int8).T
-                mixed=mat.dot(vec)
-                assert(len(mixed.shape)==1 and mixed.shape[0]==3)
-                roi[i][j]=mixed
+                alpha=pix[3]
+                if alpha>=0x80:
+                    roi[i][j]=pix[0:3]
             except IndexError:
                 continue
     frame[y:a,x:b]=roi
@@ -76,6 +73,7 @@ def decor_img(name):
 
 argc=len(sys.argv)
 if argc>=2:
+    k=1
     if not exists(sys.argv[1]):
         print("%s: No such file or directory" % sys.argv[1])
         exit(-1)
