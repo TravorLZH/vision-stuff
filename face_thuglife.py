@@ -16,7 +16,7 @@ assert(thuglife.shape[2]==4)    # Must have alpha channel
 # determines whether to print debug messages in the session or not
 debug=False
 
-k=1
+k=2
 
 def put_sunglasses(frame,pic,mid,angle):
     h,w=pic.shape[0:2]
@@ -42,6 +42,11 @@ def mark_eye(frame):
     small=cv2.resize(frame,(0,0),fx=1/k,fy=1/k)
     rgb_frame=small[:,:,::-1]
     all_landmarks=fr.face_landmarks(rgb_frame)
+    if len(all_landmarks)==0:
+        if argc>=2:
+            print("Found no faces, quitting...")
+            exit(1)
+        return frame
     slopes=[]
     mids=[]
     for i,landmarks in enumerate(all_landmarks):
@@ -50,7 +55,7 @@ def mark_eye(frame):
         mids.append(np.array(k*(pt1+pt2)/2,dtype=np.int32))
         diff=pt2-pt1
         width=int(k*np.sqrt(np.sum(np.square(diff))))
-        ratio=width/thuglife.shape[1]*3/2
+        ratio=width/thuglife.shape[1]*2
         slopes.append(diff[1]/diff[0])
         #frame=cv2.line(frame,(pt1[0]*k,pt1[1]*k),(pt2[0]*k,pt2[1]*k),
         #        (0xFF,0,0),2,8)
