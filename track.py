@@ -37,10 +37,6 @@ else:
 
 tracker=None
 
-# Used by mouse_handler() and tracking
-flag=False
-drawing=False
-
 # Stores current frame
 frame=None
 
