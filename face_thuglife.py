@@ -94,5 +94,9 @@ while webcam.isOpened():
     frame=cv2.flip(frame,1)
     frame=mark_eye(frame)
     cv2.imshow("Thug Life",frame)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    key=cv2.waitKey(1) & 0xFF
+    if key==ord('q'):
         break
+    elif key==ord('k'):
+        cv2.imwrite("sunglass_screenshot.png",frame)
+        print("Saved")
